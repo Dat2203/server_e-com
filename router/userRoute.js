@@ -57,7 +57,6 @@ router.get("/get/:id", verifyTokenAndAdmin, async (req, res) => {
 router.post("/wishlist/:id", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    console.log(req.body.slugName);
     if (!user.Wishlist.includes(req.body.slugName)) {
       await user.updateOne({ $push: { Wishlist: req.body.slugName } });
       res.status(200).json("Bạn đã thêm sản phẩm vào mục yêu thích");
@@ -78,7 +77,6 @@ router.get("/wishlist/:id", async (req, res) => {
     const wishlist = await Product.find({
       slugName: { $in: user.Wishlist },
     });
-    console.log(wishlist);
     res.status(200).json(wishlist);
   } catch (err) {
     res.status(500).json(err);
